@@ -43,7 +43,15 @@
                 return false;
             }
         }
-
+        
+        public function userData($user_id){
+            $stmt = $this->pdo->prepare('SELECT * FROM `twitters` WHERE `twitter_id` = :user_id');
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            return $stmt->fetch(PDO::FETCH_OBJ);
+        }
+        
         public function create($table, $fields = array()){
             $columns = implode(',', array_keys($fields));
             $values  = ':'.implode(', :', array_keys($fields));

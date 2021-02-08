@@ -25,7 +25,7 @@
                 return false;
             }
         }
-        
+
         public function login($email, $password){
             $password1 = md5($password);
             $stmt = $this->pdo->prepare("SELECT `twitter_id` FROM `twitters` WHERE `email` = :email AND `password` = :password");
@@ -41,6 +41,20 @@
                 header('Location: home.php');
             }else{
                 return false;
+            }
+        }
+
+        public function create($table, $fields = array()){
+            $columns = implode(',', array_keys($fields));
+            $values  = ':'.implode(', :', array_keys($fields));
+            $sql     = "INSERT INTO {$table} ({$columns}) VALUES ({$values})";
+    
+            if($stmt = $this->pdo->prepare($sql)){
+                foreach ($fields as $key => $data) {
+                    $stmt->bindValue(':'.$key, $data);
+                }
+                $stmt->execute();
+                return $this->pdo->lastInsertId();
             }
         }
     }

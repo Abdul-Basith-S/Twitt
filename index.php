@@ -1,7 +1,7 @@
 <?php
     include 'core/init.php';
     if(isset($_SESSION['twitter_id'])){
-        header('Location: home.php');
+        header('Location: index.php');
     }
 ?>
 
